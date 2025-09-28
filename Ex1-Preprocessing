@@ -1,0 +1,16 @@
+import pandas as pd
+from sklearn.impute import SimpleImputer
+data = {
+    'Age': [25, 30, 35, None, 40],
+    'Salary': [50000, 60000, None, 80000, 90000],
+    'Purchased': ['No', 'Yes', 'No', 'Yes', 'No']
+}
+df = pd.DataFrame(data)
+print("Original Dataset:\n", df)
+X = df[['Age', 'Salary']]   # Independent variables
+y = df['Purchased']         # Dependent variable
+print("\nIndependent Variables (X):\n", X)
+print("\nDependent Variable (y):\n", y)
+imputer = SimpleImputer(strategy='mean')
+X = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
+print("\nAfter Handling Missing Data:\n", X)
