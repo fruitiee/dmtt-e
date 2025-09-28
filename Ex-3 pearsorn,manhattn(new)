@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
+
+df = pd.read_csv("study_hour.csv").dropna()
+
+corr, p = pearsonr(df['marks'], df['hours'])
+print("Pearson Correlation:", round(corr, 3))
+
+if corr >= 0.5:
+    print("Strong Positive Correlation")
+elif corr < 0.5:
+    print("Weak/Negative Correlation")
+else:
+    print("No Correlation")
+
+p1, p2 = np.array([2, 3]), np.array([7, 8])
+print("Euclidean Distance:", round(np.linalg.norm(p2 - p1), 3))
+print("Manhattan Distance:", np.sum(np.abs(p2 - p1)))
