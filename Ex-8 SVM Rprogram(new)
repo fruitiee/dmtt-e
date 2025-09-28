@@ -1,0 +1,17 @@
+library(e1071)
+
+data(iris)
+
+set.seed(123)  # for reproducibility
+train_index <- sample(1:nrow(iris), 0.8 * nrow(iris))
+train_data <- iris[train_index, ]
+test_data <- iris[-train_index, ]
+
+svm_model <- svm(Species ~ ., data = train_data, kernel = "radial")
+
+predictions <- predict(svm_model, test_data)
+
+accuracy <- mean(predictions == test_data$Species)
+cat("Accuracy:", accuracy, "\n")
+
+print(table(Predicted = predictions, Actual = test_data$Species))
