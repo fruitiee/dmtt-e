@@ -1,0 +1,26 @@
+import pandas as pd
+import re
+from collections import Counter
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+from nltk.stem import PorterStemmer
+
+# Load dataset
+df = pd.read_csv("user_reviews.csv").dropna()
+corpus = df["Translated_Review"][1:151]
+
+# Preprocess text (lowercase, remove stopwords, stemming)
+stemmer = PorterStemmer()
+def preprocess(text):
+    words = re.findall(r'\b[a-zA-Z]+\b', text.lower())   # keep only words
+    return " ".join(stemmer.stem(w) for w in words if w not in ENGLISH_STOP_WORDS)
+
+# Clean corpus
+cleaned_corpus = [preprocess(doc) for doc in corpus]
+
+# Word frequency
+freq_dist = Counter(" ".join(cleaned_corpus).split())
+
+# Show top 10 words
+print("\nMost Common Words:")
+for word, freq in freq_dist.most_common(10):
+    print(f"{word}: {freq}")
