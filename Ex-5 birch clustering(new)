@@ -1,0 +1,21 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import Birch
+
+df = pd.read_csv("customer_data_50.csv")
+print(df.columns) 
+
+X = df[["AnnualIncome(k$)", "SpendingScore(1-100)"]]
+
+birch_model = Birch(n_clusters=5)
+birch_model.fit(X)
+labels = birch_model.predict(X)
+
+df["Cluster"] = labels
+print(df.head())
+
+plt.scatter(X["AnnualIncome(k$)"], X["SpendingScore(1-100)"], c=labels, cmap="rainbow", s=50)
+plt.title("Customer Segmentation using BIRCH Clustering")
+plt.xlabel("Annual Income (k$)")
+plt.ylabel("Spending Score (1-100)")
+plt.show()
